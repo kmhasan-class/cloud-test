@@ -6,6 +6,7 @@ import bd.edu.seu.studentservice.model.Student;
 import bd.edu.seu.studentservice.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,15 @@ public class StudentService {
         if (optionalStudent.isPresent())
             return studentRepository.save(student);
         else throw new ResourceDoesNotExistException(studentId + "");
+    }
+
+    public List<Student> findAll() {
+        return studentRepository.findAll();
+    }
+
+    public Student findById(long studentId) throws ResourceDoesNotExistException {
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+        return optionalStudent.orElseThrow(() -> new ResourceDoesNotExistException(studentId + ""));
     }
 
     public void deleteAll() {
